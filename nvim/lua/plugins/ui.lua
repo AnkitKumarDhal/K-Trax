@@ -107,7 +107,7 @@ return {
 			local FileModified = {
 				provider = function()
 					if vim.bo.modified then
-						return "● "
+						return "●"
 					end
 					if not vim.bo.modifiable or vim.bo.readonly then
 						return " "
@@ -217,7 +217,7 @@ return {
 				-- modified dot
 				{
 					provider = function(self)
-						return self.is_modified and " ●" or "  "
+						return self.is_modified and " ● " or "  "
 					end,
 				},
 				-- close button
@@ -347,8 +347,8 @@ return {
 							open = "",
 							symlink = "",
 							symlink_open = "",
-							arrow_open = "",
-							arrow_closed = "",
+							arrow_open = "",
+							arrow_closed = "",
 						},
 						git = {
 							unstaged = "✗",
