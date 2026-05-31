@@ -1,0 +1,15 @@
+[config]
+prefer="darkness"
+
+[settings]
+mode = "dark"
+scheme = "material"
+palette = "material"
+
+[templates.quickshell]
+input_path  = "~/.config/quickshell/src/theme/quickshell.json.hbs"
+output_path = "~/.config/quickshell/src/theme/Colors.json"
+
+[templates.zathura]
+input_path  = "~/.config/matugen/templates/zathura.tera"
+output_path = "~/.config/zathura/matugen"

@@ -1,0 +1,47 @@
+# Base Foreground/Background
+set default-fg                  "#efdee0"
+set default-bg                  "#191113"
+
+# Completions
+set completion-bg               "#514346"
+set completion-fg               "#d6c2c4"
+set completion-highlight-bg     "#5b3f45"
+set completion-highlight-fg     "#ffd9e0"
+set completion-group-bg         "#514346"
+set completion-group-fg         "#ffb1c2"
+
+# Statusbar
+set statusbar-fg                "#efdee0"
+set statusbar-bg                "#191113"
+
+# Notifications
+set notification-bg             "#191113"
+set notification-fg             "#efdee0"
+set notification-error-bg       "#93000a"
+set notification-error-fg       "#ffdad6"
+set notification-warning-bg     "#514346"
+set notification-warning-fg     "#edbe91"
+
+# Inputbar
+set inputbar-fg                 "#efdee0"
+set inputbar-bg                 "#191113"
+
+# Recolor (Invert/Recolor Mode)
+set recolor                     "true"
+set recolor-lightcolor          "#191113"
+set recolor-darkcolor           "#efdee0"
+
+# Index
+set index-fg                    "#efdee0"
+set index-bg                    "#191113"
+set index-active-fg             "#d6c2c4"
+set index-active-bg             "#514346"
+
+# Loading
+set render-loading-bg           "#191113"
+set render-loading-fg           "#efdee0"
+
+# Highlights (Dynamic RGBA via Matugen set_alpha filter)
+set highlight-color             "rgba(91, 63, 69, 0.5)"
+set highlight-fg                "rgba(228, 189, 196, 0.5)"
+set highlight-active-color      "rgba(255, 177, 194, 0.5)"

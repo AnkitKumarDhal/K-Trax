@@ -1,0 +1,18 @@
+map i recolor
+set recolor true
+set adjust-open "best"
+set guioptions s
+set selection-clipboard clipboard
+#catppuccin-frappe
+#catppuccin-latte
+#catppuccin-macchiato
+#catppuccin-mocha
+#zathura-gruvbox-dark
+#zathura-gruvbox-dark-hard
+#zathura-gruvbox-dark-soft
+#zathura-gruvbox-light
+#zathura-gruvbox-light-hard
+#zathura-gruvbox-light-soft
+
+
+include matugen

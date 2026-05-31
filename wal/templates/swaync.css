@@ -1,0 +1,47 @@
+/* Fixed Height Minimal SwayNC Pywal */
+@define-color bg {background};
+@define-color fg {foreground};
+@define-color accent {color4};
+
+* {{
+    font-family: "JetBrains Mono Nerd Font", sans-serif;
+    background: transparent;
+    border: none;
+}}
+
+.control-center {{
+    background: rgba({background.rgb}, 0.95); 
+    border: 2px solid @accent;
+    border-radius: 12px;
+    padding: 15px;
+}}
+
+.widget-title {{ 
+    margin: 5px 5px 15px 5px; 
+}}
+
+.widget-title > label {{ 
+    font-weight: bold; 
+    font-size: 1.3em;
+    color: @fg; 
+}}
+
+.notification-row .notification-background {{
+    background: alpha(@fg, 0.05);
+    border-radius: 10px;
+    margin: 5px 0px;
+    padding: 12px;
+    color: @fg;
+}}
+
+.floating-notifications .notification-background {{
+    background: rgba({background.rgb}, 0.98);
+    border: 2px solid @accent;
+    border-radius: 12px;
+}}
+
+.close-button:hover {{
+    background: alpha(@accent, 0.3);
+    border: 1px solid @accent;
+    border-radius: 6px;
+}}

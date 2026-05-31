@@ -1,0 +1,177 @@
+/*****----- Configuration -----*****/
+configuration {{
+  modi: "drun,run,filebrowser,window";
+  show-icons: true;
+  display-drun: "APPS";
+  display-run: "RUN";
+  display-filebrowser: "FILES";
+  display-window: "WINDOW";
+  drun-display-format: "{{name}}";
+  window-format: "{{w}} · {{c}} · {{t}}";
+}}
+
+/*****----- Global Properties -----*****/
+* {{
+  font: "JetBrains Mono Nerd Font 10";
+  background: {background};
+  background-alt: {color0};
+  foreground: {foreground};
+  selected: {color4};
+  active: {color5};
+  urgent: {color1};
+}}
+
+/*****----- Main Window -----*****/
+window {{
+  transparency: "real";
+  location: 0;
+  anchor: center;
+  fullscreen: false;
+  width: 420px;
+  x-offset: 0px;
+  y-offset: 0px;
+  enabled: true;
+  border-radius: 8px;
+  cursor: "default";
+  background-color: @background;
+}}
+
+/*****----- Main Box -----*****/
+mainbox {{
+  enabled: true;
+  spacing: 10px;
+  background-color: transparent;
+  orientation: vertical;
+  children: ["inputbar", "listbox"];
+}}
+
+what {{
+    margin: 2px;
+    enabled: true;
+    background-color: transparent;
+    orientation: vertical;
+    children: ["inputbar"];
+}}
+
+/*****----- Listbox -----*****/
+listbox {{
+  spacing: 10px;
+  padding: 6px;
+  background-color: transparent;
+  orientation: vertical;
+  children: ["listview"];
+}}
+
+/*****----- Inputbar -----*****/
+inputbar {{
+  enabled: true;
+  spacing: 10px;
+  padding: 17px;
+  margin: 10px 10px 0px 10px;
+  border-radius: 6px;
+  background-color: @background-alt;
+  text-color: @foreground;
+  children: [ "textbox-prompt-colon", "entry"];
+}}
+textbox-prompt-colon {{
+  font: "Font Awesome 7 Free 10";
+  vertical-align: 0.2;
+  enabled: true;
+  expand: false;
+  str: "";
+  background-color: inherit;
+  text-color: @selected;
+}}
+entry {{
+  enabled: true;
+  background-color: inherit;
+  text-color: inherit;
+  cursor: text;
+  placeholder: "Search";
+  placeholder-color: @selected;
+}}
+
+/*****----- Listview -----*****/
+listview {{
+  enabled: true;
+  columns: 1;
+  lines: 5;
+  cycle: true;
+  dynamic: true;
+  scrollbar: false;
+  layout: vertical;
+  reverse: false;
+  fixed-height: true;
+  fixed-columns: true;
+  spacing: 8px;
+  background-color: transparent;
+  text-color: @foreground;
+  cursor: "default";
+}}
+
+/*****----- Elements -----*****/
+element {{
+  enabled: true;
+  spacing: 10px;
+  padding: 6px;
+  border-radius: 7px;
+  background-color: transparent;
+  text-color: @foreground;
+  cursor: pointer;
+}}
+element normal.normal {{
+  background-color: inherit;
+  text-color: inherit;
+}}
+element normal.urgent {{
+  background-color: @urgent;
+  text-color: @foreground;
+}}
+element normal.active {{
+  background-color: @active;
+  text-color: @foreground;
+}}
+element selected.normal {{
+  background-color: @selected;
+  text-color: {background};
+}}
+element selected.urgent {{
+  background-color: @urgent;
+  text-color: @foreground;
+}}
+element selected.active {{
+  background-color: @urgent;
+  text-color: @foreground;
+}}
+element-icon {{
+  background-color: transparent;
+  text-color: inherit;
+  size: 30px;
+  cursor: inherit;
+}}
+element-text {{
+  background-color: transparent;
+  text-color: inherit;
+  cursor: inherit;
+  vertical-align: 0.5;
+  horizontal-align: 0;
+}}
+
+/*****----- Message -----*****/
+message {{
+  background-color: transparent;
+}}
+textbox {{
+  padding: 10px;
+  border-radius: 7px;
+  background-color: @background-alt;
+  text-color: @foreground;
+  vertical-align: 0.5;
+  horizontal-align: 0;
+}}
+error-message {{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: @background;
+  text-color: @foreground;
+}}

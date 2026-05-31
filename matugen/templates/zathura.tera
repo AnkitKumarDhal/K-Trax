@@ -1,0 +1,47 @@
+# Base Foreground/Background
+set default-fg                  "{{colors.on_background.default.hex}}"
+set default-bg                  "{{colors.background.default.hex}}"
+
+# Completions
+set completion-bg               "{{colors.surface_variant.default.hex}}"
+set completion-fg               "{{colors.on_surface_variant.default.hex}}"
+set completion-highlight-bg     "{{colors.secondary_container.default.hex}}"
+set completion-highlight-fg     "{{colors.on_secondary_container.default.hex}}"
+set completion-group-bg         "{{colors.surface_variant.default.hex}}"
+set completion-group-fg         "{{colors.primary.default.hex}}"
+
+# Statusbar
+set statusbar-fg                "{{colors.on_surface.default.hex}}"
+set statusbar-bg                "{{colors.surface.default.hex}}"
+
+# Notifications
+set notification-bg             "{{colors.surface.default.hex}}"
+set notification-fg             "{{colors.on_surface.default.hex}}"
+set notification-error-bg       "{{colors.error_container.default.hex}}"
+set notification-error-fg       "{{colors.on_error_container.default.hex}}"
+set notification-warning-bg     "{{colors.surface_variant.default.hex}}"
+set notification-warning-fg     "{{colors.tertiary.default.hex}}"
+
+# Inputbar
+set inputbar-fg                 "{{colors.on_surface.default.hex}}"
+set inputbar-bg                 "{{colors.surface.default.hex}}"
+
+# Recolor (Invert/Recolor Mode)
+set recolor                     "true"
+set recolor-lightcolor          "{{colors.background.default.hex}}"
+set recolor-darkcolor           "{{colors.on_background.default.hex}}"
+
+# Index
+set index-fg                    "{{colors.on_background.default.hex}}"
+set index-bg                    "{{colors.background.default.hex}}"
+set index-active-fg             "{{colors.on_surface_variant.default.hex}}"
+set index-active-bg             "{{colors.surface_variant.default.hex}}"
+
+# Loading
+set render-loading-bg           "{{colors.background.default.hex}}"
+set render-loading-fg           "{{colors.on_background.default.hex}}"
+
+# Highlights (Dynamic RGBA via Matugen set_alpha filter)
+set highlight-color             "{{colors.secondary_container.default.rgba | set_alpha: 0.5}}"
+set highlight-fg                "{{colors.secondary.default.rgba | set_alpha: 0.5}}"
+set highlight-active-color      "{{colors.primary.default.rgba | set_alpha: 0.5}}"
