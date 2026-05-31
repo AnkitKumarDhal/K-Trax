@@ -6,6 +6,4 @@ vim.g.maplocalleader = " "
 require("core.options")
 require("core.autocmds")
 require("lazy_bootstrap")
-
--- Load keymaps after plugins (so which-key can register descriptions)
 require("core.mappings")

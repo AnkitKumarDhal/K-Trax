@@ -9,6 +9,7 @@ return {
 			local conditions = require("heirline.conditions")
 			local utils = require("heirline.utils")
 
+			local c = require("core.colors").colors
 			local mode_names = {
 				n = "NORMAL",
 				no = "N-OP",
@@ -165,8 +166,49 @@ return {
 			local Align = { provider = "%=" }
 			local Space = { provider = " " }
 
+			-- Separator components
+			local function sep_right(from_hl, to_hl)
+				return { provider = "", hl = { fg = from_hl, bg = to_hl } }
+			end
+
+			local ModeSep = {
+				provider = "▶",
+				hl = function(self)
+					local sep_groups = {
+						n = "HeirlineSepModeToBlack",
+						i = "HeirlineSepInsertToBlack",
+						v = "HeirlineSepVisualToBlack",
+						V = "HeirlineSepVisualToBlack",
+						[""] = "HeirlineSepVisualToBlack",
+						c = "HeirlineSepCmdToBlack",
+						R = "HeirlineSepReplaceToBlack",
+						t = "HeirlineSepInsertToBlack",
+					}
+					local mode = vim.fn.mode(1):sub(1, 1)
+					return sep_groups[mode] or "HeirlineSepModeToBlack"
+				end,
+				update = {
+					"ModeChanged",
+					pattern = "*:*",
+					callback = vim.schedule_wrap(function()
+						vim.cmd("redrawstatus")
+					end),
+				},
+			}
+
+			local RulerSepLeft = {
+				provider = "",
+				hl = "HeirlineSepBlackToGray",
+			}
+
+			local RulerSepRight = {
+				provider = "",
+				hl = "HeirlineSepGrayToEnd",
+			}
+
 			local StatusLine = {
 				Mode,
+				ModeSep, -- colored wedge after mode pill
 				Git,
 				Space,
 				FileIcon,
@@ -175,9 +217,10 @@ return {
 				Align,
 				Diagnostics,
 				LSPActive,
+				RulerSepLeft, -- wedge before ruler
 				Ruler,
+				RulerSepRight, -- closing wedge after ruler
 			}
-
 			-- ── TABLINE ──────────────────────────────────────────────────────
 
 			local TablineBufferBlock = {
@@ -217,13 +260,19 @@ return {
 				-- modified dot
 				{
 					provider = function(self)
-						return self.is_modified and " ● " or "  "
+						return self.is_modified and " ●" or ""
 					end,
 				},
-				-- close button
+				-- close button — hl is now conditional so it stays inside the tab's bg
 				{
-					provider = " ",
-					hl = "HeirlineTabBufClose",
+					provider = " × ",
+					hl = function(self)
+						if self.is_active then
+							return "HeirlineTabBufCloseActive"
+						else
+							return "HeirlineTabBufCloseInactive"
+						end
+					end,
 					on_click = {
 						callback = function(_, minwid)
 							vim.schedule(function()
@@ -236,6 +285,19 @@ return {
 						end,
 						name = "heirline_tabline_close_buf",
 					},
+				},
+				-- right cap — visually closes the tab shape
+				{
+					provider = "", -- U+E0B0 powerline right arrow — acts as end cap
+					hl = function(self)
+						if self.is_active then
+							return { fg = c.blue, bg = c.black }
+						elseif self.is_modified then
+							return { fg = c.brblack, bg = c.black }
+						else
+							return { fg = c.brblack, bg = c.black }
+						end
+					end,
 				},
 				on_click = {
 					callback = function(_, minwid)
@@ -295,6 +357,20 @@ return {
 
 			local TabLine = {
 				TablineOffset,
+				-- separator between Files label and first buffer tab
+				{
+					condition = function()
+						-- only show when nvim-tree is open (same condition as offset)
+						local wins = vim.api.nvim_tabpage_list_wins(0)
+						table.sort(wins, function(a, b)
+							return vim.api.nvim_win_get_position(a)[2] < vim.api.nvim_win_get_position(b)[2]
+						end)
+						local buf = vim.api.nvim_win_get_buf(wins[1])
+						return vim.bo[buf].filetype == "NvimTree"
+					end,
+					provider = "│",
+					hl = "HeirlineTabSep",
+				},
 				TablineBufferList,
 				{ provider = "%=" },
 				TabPages,

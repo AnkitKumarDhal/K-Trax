@@ -130,6 +130,9 @@ function M.apply()
 	hi(0, "HeirlineFill", { fg = c.brblack, bg = c.black })
 	hi(0, "HeirlineTabpageActive", { fg = c.background, bg = c.magenta, bold = true })
 	hi(0, "HeirlineTabpageInactive", { fg = c.foreground, bg = c.brblack })
+	hi(0, "HeirlineTabBufCloseActive", { fg = c.red, bg = c.blue })
+	hi(0, "HeirlineTabBufCloseInactive", { fg = c.red, bg = c.brblack })
+	hi(0, "HeirlineTabSep", { fg = c.white, bg = c.white })
 
 	-- Statusline sections
 	hi(0, "HeirlineMode", { fg = c.background, bg = c.green, bold = true })

@@ -17,6 +17,15 @@ opt.sidescrolloff = 8
 opt.wrap = false
 opt.termguicolors = true
 opt.showmode = false -- we show it in statusline
+opt.laststatus = 3
+opt.fillchars:append({
+	horiz = "─",
+	horizup = "┴",
+	horizdown = "┬",
+	vertright = "├",
+	vertleft = "┤",
+	verthoriz = "┼",
+})
 opt.cmdheight = 1
 opt.pumheight = 10 -- popup menu height
 

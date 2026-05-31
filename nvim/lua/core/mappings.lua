@@ -34,7 +34,18 @@ map("n", "<leader>v", "<cmd>vsplit<cr>", { desc = "Window: Vertical Split" })
 -- ── Buffers (NvChad-style) ────────────────────────────────────────────────────
 map("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Buffer: Next" })
 map("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Buffer: Prev" })
-map("n", "<leader>x", "<cmd>bd<cr>", { desc = "Buffer: Close" })
+map("n", "<leader>x", function()
+	local cur = vim.api.nvim_get_current_buf()
+	local listed = vim.tbl_filter(function(b)
+		return vim.bo[b].buflisted and b ~= cur
+	end, vim.api.nvim_list_bufs())
+	if #listed > 0 then
+		vim.api.nvim_set_current_buf(listed[#listed])
+	else
+		vim.cmd("enew") -- open empty buffer so nvim-tree doesn't expand
+	end
+	vim.api.nvim_buf_delete(cur, { force = false })
+end, { desc = "Buffer: Close" })
 map("n", "<leader>b", "<cmd>enew<cr>", { desc = "Buffer: New" })
 
 -- ── File explorer ─────────────────────────────────────────────────────────────
