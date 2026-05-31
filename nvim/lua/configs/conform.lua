@@ -4,9 +4,9 @@ local options = {
         css = { "prettier" },
         html = { "prettier" },
         python = { "prettier" },
-        javasctipt = { "prettier" },
+        javascript = { "prettier" },
         typescript = { "prettier" },
-        javasctiptreact = { "prettier" },
+        javascriptreact = { "prettier" },
         typescriptreact = { "prettier" },
     },
 
