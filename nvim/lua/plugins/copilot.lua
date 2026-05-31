@@ -5,12 +5,12 @@ return {
         require("copilot").setup {
             suggestion = {
                 enabled = true,
-                auto_trigger = false, -- only shows when you press the trigger key
+                auto_trigger = true, -- only shows when you press the trigger key
                 keymap = {
                     accept = "<Tab>",
                     next = "<M-]>",
                     prev = "<M-[>",
-                    trigger = "<M-l>", -- press this to ask for a suggestion
+                    trigger = "<M-|>", -- press this to ask for a suggestion
                     dismiss = "<C-]>",
                 },
             },
