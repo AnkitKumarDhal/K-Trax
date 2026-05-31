@@ -54,3 +54,12 @@ opt.foldenable = false -- open all folds by default
 -- Misc
 opt.shortmess:append("sI") -- suppress intro message
 opt.whichwrap:append("<>[]hl")
+-- Hide ~ on empty lines, clean fold/split chars
+opt.fillchars = {
+	eob = " ",
+	fold = " ",
+	foldsep = " ",
+	foldopen = "",
+	foldclose = "",
+	vert = "│",
+}

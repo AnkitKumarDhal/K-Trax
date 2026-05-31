@@ -1,47 +1,47 @@
 # Base Foreground/Background
-set default-fg                  "#efdee0"
-set default-bg                  "#191113"
+set default-fg                  "#dee3e5"
+set default-bg                  "#0f1416"
 
 # Completions
-set completion-bg               "#514346"
-set completion-fg               "#d6c2c4"
-set completion-highlight-bg     "#5b3f45"
-set completion-highlight-fg     "#ffd9e0"
-set completion-group-bg         "#514346"
-set completion-group-fg         "#ffb1c2"
+set completion-bg               "#3f484b"
+set completion-fg               "#bfc8cb"
+set completion-highlight-bg     "#334a51"
+set completion-highlight-fg     "#cee7ef"
+set completion-group-bg         "#3f484b"
+set completion-group-fg         "#85d2e7"
 
 # Statusbar
-set statusbar-fg                "#efdee0"
-set statusbar-bg                "#191113"
+set statusbar-fg                "#dee3e5"
+set statusbar-bg                "#0f1416"
 
 # Notifications
-set notification-bg             "#191113"
-set notification-fg             "#efdee0"
+set notification-bg             "#0f1416"
+set notification-fg             "#dee3e5"
 set notification-error-bg       "#93000a"
 set notification-error-fg       "#ffdad6"
-set notification-warning-bg     "#514346"
-set notification-warning-fg     "#edbe91"
+set notification-warning-bg     "#3f484b"
+set notification-warning-fg     "#bfc4eb"
 
 # Inputbar
-set inputbar-fg                 "#efdee0"
-set inputbar-bg                 "#191113"
+set inputbar-fg                 "#dee3e5"
+set inputbar-bg                 "#0f1416"
 
 # Recolor (Invert/Recolor Mode)
 set recolor                     "true"
-set recolor-lightcolor          "#191113"
-set recolor-darkcolor           "#efdee0"
+set recolor-lightcolor          "#0f1416"
+set recolor-darkcolor           "#dee3e5"
 
 # Index
-set index-fg                    "#efdee0"
-set index-bg                    "#191113"
-set index-active-fg             "#d6c2c4"
-set index-active-bg             "#514346"
+set index-fg                    "#dee3e5"
+set index-bg                    "#0f1416"
+set index-active-fg             "#bfc8cb"
+set index-active-bg             "#3f484b"
 
 # Loading
-set render-loading-bg           "#191113"
-set render-loading-fg           "#efdee0"
+set render-loading-bg           "#0f1416"
+set render-loading-fg           "#dee3e5"
 
 # Highlights (Dynamic RGBA via Matugen set_alpha filter)
-set highlight-color             "rgba(91, 63, 69, 0.5)"
-set highlight-fg                "rgba(228, 189, 196, 0.5)"
-set highlight-active-color      "rgba(255, 177, 194, 0.5)"
+set highlight-color             "rgba(51, 74, 81, 0.5)"
+set highlight-fg                "rgba(178, 203, 211, 0.5)"
+set highlight-active-color      "rgba(133, 210, 231, 0.5)"

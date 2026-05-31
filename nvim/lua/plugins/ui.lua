@@ -1,21 +1,14 @@
 -- ~/.config/nvim/lua/plugins/ui.lua
 return {
-	-- ── Heirline: tabufline + statusline ─────────────────────────────────────
 	{
 		"rebelot/heirline.nvim",
-		lazy = false, -- must load early for tabline to appear
+		lazy = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			local heirline = require("heirline")
 			local conditions = require("heirline.conditions")
 			local utils = require("heirline.utils")
 
-			-- ── Helpers ──────────────────────────────────────────────────────
-			local function get_hl(name)
-				return utils.get_highlight(name)
-			end
-
-			-- ── Mode map ─────────────────────────────────────────────────────
 			local mode_names = {
 				n = "NORMAL",
 				no = "N-OP",
@@ -51,7 +44,7 @@ return {
 				t = "HeirlineModeInsert",
 			}
 
-			-- ── STATUS LINE ──────────────────────────────────────────────────
+			-- ── STATUSLINE ───────────────────────────────────────────────────
 
 			local Mode = {
 				init = function(self)
@@ -61,8 +54,7 @@ return {
 					return "  " .. (mode_names[self.mode] or self.mode) .. " "
 				end,
 				hl = function(self)
-					local m = self.mode:sub(1, 1)
-					return mode_colors[m] or "HeirlineMode"
+					return mode_colors[self.mode:sub(1, 1)] or "HeirlineMode"
 				end,
 				update = {
 					"ModeChanged",
@@ -80,16 +72,10 @@ return {
 				end,
 				{
 					provider = function(self)
-						return "  " .. (self.status_dict.head or "") .. " "
+						return "  " .. (self.status_dict and self.status_dict.head or "") .. " "
 					end,
 					hl = "HeirlineGit",
 				},
-			}
-
-			local FileBlock = {
-				init = function(self)
-					self.filename = vim.api.nvim_buf_get_name(0)
-				end,
 			}
 
 			local FileIcon = {
@@ -100,7 +86,7 @@ return {
 						require("nvim-web-devicons").get_icon_color(name, ext, { default = true })
 				end,
 				provider = function(self)
-					return self.icon and (" " .. self.icon .. " ")
+					return self.icon and (" " .. self.icon .. " ") or " "
 				end,
 				hl = function(self)
 					return { fg = self.icon_color }
@@ -128,7 +114,7 @@ return {
 					end
 					return ""
 				end,
-				hl = { fg = utils.get_highlight("HeirlineTabBufModified").fg },
+				hl = "HeirlineTabBufModified",
 			}
 
 			local Diagnostics = {
@@ -137,7 +123,6 @@ return {
 					self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
 					self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 					self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-					self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 				end,
 				update = { "DiagnosticChanged", "BufEnter" },
 				{
@@ -164,8 +149,8 @@ return {
 				condition = conditions.lsp_attached,
 				provider = function()
 					local names = {}
-					for _, server in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-						table.insert(names, server.name)
+					for _, s in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+						table.insert(names, s.name)
 					end
 					return " 󰒋 " .. table.concat(names, " ") .. " "
 				end,
@@ -184,7 +169,6 @@ return {
 				Mode,
 				Git,
 				Space,
-				FileBlock,
 				FileIcon,
 				FileName,
 				FileModified,
@@ -194,7 +178,8 @@ return {
 				Ruler,
 			}
 
-			-- ── TAB/BUFFER LINE ──────────────────────────────────────────────
+			-- ── TABLINE ──────────────────────────────────────────────────────
+
 			local TablineBufferBlock = {
 				init = function(self)
 					self.filename = vim.api.nvim_buf_get_name(self.bufnr)
@@ -213,26 +198,23 @@ return {
 				-- icon
 				{
 					init = function(self)
-						local name = self.filename
-						local ext = vim.fn.fnamemodify(name, ":e")
-						self.icon, _ = require("nvim-web-devicons").get_icon(name, ext, { default = true })
+						local ext = vim.fn.fnamemodify(self.filename, ":e")
+						self.icon = require("nvim-web-devicons").get_icon(self.filename, ext, { default = true })
 					end,
 					provider = function(self)
 						return " " .. (self.icon or "") .. " "
 					end,
 				},
-				-- filename
+				-- name
 				{
 					provider = function(self)
-						local name = self.filename
-						if name == "" then
+						if self.filename == "" then
 							return "[No Name]"
 						end
-						name = vim.fn.fnamemodify(name, ":t")
-						return name
+						return vim.fn.fnamemodify(self.filename, ":t")
 					end,
 				},
-				-- modified indicator
+				-- modified dot
 				{
 					provider = function(self)
 						return self.is_modified and " ●" or "  "
@@ -255,7 +237,6 @@ return {
 						name = "heirline_tabline_close_buf",
 					},
 				},
-				-- clicking a buffer switches to it
 				on_click = {
 					callback = function(_, minwid)
 						vim.api.nvim_win_set_buf(0, minwid)
@@ -269,8 +250,8 @@ return {
 
 			local TablineBufferList = utils.make_buflist(
 				TablineBufferBlock,
-				{ provider = " ", hl = "HeirlineTabBufInactive" }, -- left scroll
-				{ provider = " ", hl = "HeirlineTabBufInactive" } -- right scroll
+				{ provider = " ", hl = "HeirlineTabBufInactive" },
+				{ provider = " ", hl = "HeirlineTabBufInactive" }
 			)
 
 			local TabPages = {
@@ -287,19 +268,44 @@ return {
 				}),
 			}
 
+			-- Offset block: fills the space above nvim-tree so tabs start
+			-- at the same x position as the file content
+			local TablineOffset = {
+				condition = function(self)
+					-- find the leftmost window
+					local wins = vim.api.nvim_tabpage_list_wins(0)
+					table.sort(wins, function(a, b)
+						return vim.api.nvim_win_get_position(a)[2] < vim.api.nvim_win_get_position(b)[2]
+					end)
+					local leftwin = wins[1]
+					local buf = vim.api.nvim_win_get_buf(leftwin)
+					if vim.bo[buf].filetype == "NvimTree" then
+						self.winid = leftwin
+						return true
+					end
+				end,
+				provider = function(self)
+					local width = vim.api.nvim_win_get_width(self.winid) + 1 -- +1 for separator
+					local title = "Files"
+					local pad = math.max(0, math.floor((width - #title) / 2))
+					return string.rep(" ", pad) .. title .. string.rep(" ", width - pad - #title)
+				end,
+				hl = "HeirlineTabBufInactive",
+			}
+
 			local TabLine = {
+				TablineOffset,
 				TablineBufferList,
 				{ provider = "%=" },
 				TabPages,
 			}
 
-			-- ── Apply ────────────────────────────────────────────────────────
 			heirline.setup({
 				statusline = StatusLine,
 				tabline = TabLine,
 			})
 
-			vim.opt.showtabline = 2 -- always show tabline
+			vim.opt.showtabline = 2
 		end,
 	},
 
@@ -323,11 +329,7 @@ return {
 			},
 			git = { enable = true, ignore = true },
 			filesystem_watchers = { enable = true },
-			actions = {
-				open_file = {
-					resize_window = true,
-				},
-			},
+			actions = { open_file = { resize_window = true } },
 			renderer = {
 				root_folder_label = false,
 				highlight_git = true,
@@ -419,6 +421,7 @@ return {
 				{ "<leader>t", group = "Terminal" },
 				{ "<leader>h", group = "Git Hunk / Split" },
 				{ "<leader>w", group = "Window/Wallpaper" },
+				{ "<leader>n", group = "NPM" },
 			},
 		},
 	},
@@ -439,6 +442,5 @@ return {
 		end,
 	},
 
-	-- ── nvim-web-devicons ─────────────────────────────────────────────────────
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 }

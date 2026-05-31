@@ -12,3 +12,4 @@ enable_transience
 export PATH="$HOME/.local/bin:$PATH"
 set -gx ANTHROPIC_BASE_URL "http://127.0.0.1:4000"
 set -gx ANTHROPIC_API_KEY "sk-local-proxy-dummy"
+set -x NVIM_LISTEN_ADDRESS /tmp/nvim.sock
