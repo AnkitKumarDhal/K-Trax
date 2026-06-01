@@ -16,10 +16,10 @@ return {
 				nov = "N-OP",
 				v = "VISUAL",
 				V = "V-LINE",
-				[""] = "V-BLOCK",
+				["\22"] = "V-BLOCK",
 				s = "SELECT",
 				S = "S-LINE",
-				[""] = "S-BLOCK",
+				["\19"] = "S-BLOCK",
 				i = "INSERT",
 				ic = "INSERT",
 				R = "REPLACE",
@@ -39,7 +39,7 @@ return {
 				i = "HeirlineModeInsert",
 				v = "HeirlineModeVisual",
 				V = "HeirlineModeVisual",
-				[""] = "HeirlineModeVisual",
+				["\22"] = "HeirlineModeVisual",
 				c = "HeirlineModeCmd",
 				R = "HeirlineModeReplace",
 				t = "HeirlineModeInsert",
@@ -172,7 +172,7 @@ return {
 			end
 
 			local ModeSep = {
-				provider = "▶",
+				provider = "",
 				hl = function(self)
 					local sep_groups = {
 						n = "HeirlineSepModeToBlack",
@@ -265,7 +265,7 @@ return {
 				},
 				-- close button — hl is now conditional so it stays inside the tab's bg
 				{
-					provider = " × ",
+					provider = "  ",
 					hl = function(self)
 						if self.is_active then
 							return "HeirlineTabBufCloseActive"
@@ -276,7 +276,19 @@ return {
 					on_click = {
 						callback = function(_, minwid)
 							vim.schedule(function()
-								vim.api.nvim_buf_delete(minwid, { force = false })
+								local cur = minwid
+								-- Only switch if this is the currently displayed buffer
+								if vim.api.nvim_get_current_buf() == cur then
+									local listed = vim.tbl_filter(function(b)
+										return vim.bo[b].buflisted and b ~= cur
+									end, vim.api.nvim_list_bufs())
+									if #listed > 0 then
+										vim.api.nvim_set_current_buf(listed[#listed])
+									else
+										vim.cmd("enew")
+									end
+								end
+								pcall(vim.api.nvim_buf_delete, cur, { force = false })
 								vim.cmd.redrawtabline()
 							end)
 						end,
@@ -285,8 +297,7 @@ return {
 						end,
 						name = "heirline_tabline_close_buf",
 					},
-				},
-				-- right cap — visually closes the tab shape
+				}, -- right cap — visually closes the tab shape
 				{
 					provider = "", -- U+E0B0 powerline right arrow — acts as end cap
 					hl = function(self)

@@ -3,11 +3,12 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			-- The `main` branch uses vim.treesitter directly; parsers are
 			-- installed with TSInstall / ensure_installed via the plugin itself.
 			require("nvim-treesitter").setup({
+				highlight = { enable = true },
 				ensure_installed = {
 					"vim",
 					"lua",

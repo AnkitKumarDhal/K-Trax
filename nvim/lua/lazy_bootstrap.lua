@@ -63,11 +63,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
 	callback = function()
 		require("core.colors").apply()
-		-- Re-trigger BufReadPost so treesitter attaches on the initial file
-		vim.schedule(function()
-			if vim.fn.argc() > 0 then
-				vim.cmd("do BufReadPost")
-			end
-		end)
+		-- Use defer_fn instead of schedule — gives treesitter time to fully load
+		vim.api.nvim_create_autocmd("VimEnter", {
+			once = true,
+			callback = function()
+				require("core.colors").apply()
+			end,
+		})
 	end,
 })
