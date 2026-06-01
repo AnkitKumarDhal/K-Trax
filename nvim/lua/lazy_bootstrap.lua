@@ -63,12 +63,5 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
 	callback = function()
 		require("core.colors").apply()
-		-- Use defer_fn instead of schedule — gives treesitter time to fully load
-		vim.api.nvim_create_autocmd("VimEnter", {
-			once = true,
-			callback = function()
-				require("core.colors").apply()
-			end,
-		})
 	end,
 })
