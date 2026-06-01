@@ -56,9 +56,9 @@ opt.completeopt = "menu,menuone,noselect"
 opt.mouse = "a"
 
 -- Fold (using treesitter later)
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
-opt.foldenable = false -- open all folds by default
+opt.foldmethod = "indent"
+opt.foldenable = false
+opt.foldlevel = 99
 
 -- Misc
 opt.shortmess:append("sI") -- suppress intro message

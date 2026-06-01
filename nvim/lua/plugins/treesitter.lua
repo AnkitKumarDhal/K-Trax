@@ -1,44 +1,63 @@
 return {
-    {
-        "nvim-treesitter/nvim-treesitter",
-        branch = "master",
-        build  = ":TSUpdate",
-        lazy   = false,
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                ensure_installed = {
-                    "vim", "lua", "vimdoc",
-                    "html", "css", "javascript", "typescript", "tsx",
-                    "json", "jsonc",
-                    "bash", "markdown", "markdown_inline",
-                    "regex", "comment",
-                },
-                auto_install    = true,
-                highlight       = {
-                    enable = true,
-                    -- disable on very large files to keep things snappy
-                    disable = function(_, buf)
-                        local max_filesize = 100 * 1024 -- 100KB
-                        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-                        if ok and stats and stats.size > max_filesize then return true end
-                    end,
-                },
-                indent          = { enable = true },
-                autotag         = { enable = true },
-                incremental_selection = {
-                    enable  = true,
-                    keymaps = {
-                        init_selection   = "<C-space>",
-                        node_incremental = "<C-space>",
-                        node_decremental = "<bs>",
-                    },
-                },
-            })
-        end,
-    },
-    {
-        "windwp/nvim-ts-autotag",
-        event = "InsertEnter",
-        opts  = {},
-    },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		build = ":TSUpdate",
+		lazy = false,
+		config = function()
+			-- 1. Install missing parsers manually
+			local ensure_installed = {
+				"vim",
+				"lua",
+				"vimdoc",
+				"html",
+				"css",
+				"javascript",
+				"typescript",
+				"tsx",
+				"json",
+				"jsonc",
+				"bash",
+				"markdown",
+				"markdown_inline",
+				"regex",
+				"comment",
+			}
+			local already_installed = require("nvim-treesitter.config").get_installed()
+			local to_install = vim.iter(ensure_installed)
+				:filter(function(parser)
+					return not vim.tbl_contains(already_installed, parser)
+				end)
+				:totable()
+
+			if #to_install > 0 then
+				require("nvim-treesitter").install(to_install)
+			end
+
+			-- 2. Enable Native Highlighting, Folds, and Indents
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
+				callback = function(ev)
+					local ft = vim.bo[ev.buf].filetype
+					if ft ~= "" and ft ~= "NvimTree" then
+						-- Start Treesitter highlighting (disables regex syntax)
+						pcall(vim.treesitter.start, ev.buf)
+
+						-- Enable Treesitter folds
+						vim.opt_local.foldmethod = "expr"
+						vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+						vim.opt_local.foldenable = false
+
+						-- Enable Treesitter indentation
+						vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
+			})
+		end,
+	},
+	{
+		"windwp/nvim-ts-autotag",
+		event = "InsertEnter",
+		opts = {},
+	},
 }

@@ -125,7 +125,7 @@ function M.apply()
 	-- Heirline tabufline / statusline (custom groups, referenced in ui.lua)
 	hi(0, "HeirlineTabBufActive", { fg = c.foreground, bg = c.background, bold = true })
 	hi(0, "HeirlineTabBufInactive", { fg = c.brblack, bg = c.background })
-	hi(0, "HeirlineTabBufModified", { fg = c.yellow, bg = c.brblack })
+	hi(0, "HeirlineTabBufModified", { fg = c.yellow, bg = c.black })
 	hi(0, "HeirlineTabBufClose", { fg = c.red, bg = c.brblack })
 	hi(0, "HeirlineFill", { fg = c.brblack, bg = c.black })
 	hi(0, "HeirlineTabpageActive", { fg = c.background, bg = c.magenta, bold = true })
@@ -148,4 +148,3 @@ function M.apply()
 end
 
 return M
-
